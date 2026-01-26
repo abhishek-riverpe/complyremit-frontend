@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 const schema = yup.object({
   fullName: yup
@@ -123,26 +124,33 @@ export default function WaitlistSection() {
   };
 
   return (
-    <section id="waitlist-section" className="relative py-16 sm:py-24 overflow-hidden bg-gray-50">
+    <section
+      id="waitlist-section"
+      className="relative py-16 sm:py-24 overflow-hidden bg-gray-50"
+      aria-labelledby="waitlist-heading"
+    >
       {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Column - Content */}
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white px-4 py-1.5 text-sm text-gray-600 mb-6">
-              <span className="relative flex h-2 w-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white px-4 py-1.5 text-sm text-gray-600 mb-6" role="status">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
               </span>
               Now accepting early access requests
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+            <h2
+              id="waitlist-heading"
+              className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 mb-6"
+            >
               Get In Touch
-            </h1>
+            </h2>
 
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               Ready to revolutionize how you handle international payments?
@@ -150,39 +158,40 @@ export default function WaitlistSection() {
             </p>
 
             {/* Features */}
-            <div className="space-y-4 mb-10">
+            <ul className="space-y-4 mb-10 list-none p-0" role="list" aria-label="Platform benefits">
               {features.map((feature) => (
-                <div key={feature.text} className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                <li key={feature.text} className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10" aria-hidden="true">
                     <feature.icon className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-gray-900 font-medium">
                     {feature.text}
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
             {/* Contact Info */}
             <div className="border-t border-gray-200 pt-8">
               <p className="text-sm font-medium text-gray-900 mb-4">
                 Have questions? Reach out directly:
               </p>
-              <div className="space-y-3">
+              <address className="space-y-3 not-italic">
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Mail className="h-4 w-4" />
+                  <Mail className="h-4 w-4" aria-hidden="true" />
                   <a
                     href="mailto:sales@complyremit.com"
                     className="hover:text-primary transition-colors"
+                    aria-label="Email sales at sales@complyremit.com"
                   >
                     sales@complyremit.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Clock className="h-4 w-4" />
+                  <Clock className="h-4 w-4" aria-hidden="true" />
                   <span>Response time: Within 24 hours</span>
                 </div>
-              </div>
+              </address>
             </div>
           </div>
 
@@ -190,9 +199,9 @@ export default function WaitlistSection() {
           <div>
             <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-xl">
               <div className="mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Request Early Access
-                </h2>
+                </h3>
                 <p className="text-sm text-gray-600">
                   Fill out the form and we&apos;ll get back to you shortly.
                 </p>
@@ -202,6 +211,8 @@ export default function WaitlistSection() {
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-5"
+                  noValidate
+                  aria-label="Early access request form"
                 >
                   {/* Full Name */}
                   <FormField
@@ -215,9 +226,11 @@ export default function WaitlistSection() {
                             placeholder="John Doe"
                             {...field}
                             className="h-11"
+                            autoComplete="name"
+                            aria-describedby="fullName-error"
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage id="fullName-error" />
                       </FormItem>
                     )}
                   />
@@ -235,9 +248,11 @@ export default function WaitlistSection() {
                             placeholder="john@example.com"
                             {...field}
                             className="h-11"
+                            autoComplete="email"
+                            aria-describedby="email-error"
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage id="email-error" />
                       </FormItem>
                     )}
                   />
@@ -255,9 +270,11 @@ export default function WaitlistSection() {
                             placeholder="+1 234 567 8900"
                             {...field}
                             className="h-11"
+                            autoComplete="tel"
+                            aria-describedby="whatsapp-error"
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage id="whatsapp-error" />
                       </FormItem>
                     )}
                   />
@@ -274,9 +291,10 @@ export default function WaitlistSection() {
                             placeholder="Tell us about your needs..."
                             {...field}
                             className="flex min-h-25 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            aria-describedby="message-error"
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage id="message-error" />
                       </FormItem>
                     )}
                   />
@@ -287,16 +305,17 @@ export default function WaitlistSection() {
                     size="lg"
                     className="w-full rounded-full text-base mt-2 bg-primary hover:bg-primary/90"
                     disabled={isLoading}
+                    aria-describedby={isSuccess ? "success-message" : isError ? "error-message" : undefined}
                   >
                     {isLoading ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Submitting...
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                        <span>Submitting...</span>
                       </>
                     ) : (
                       <>
-                        Request Access
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <span>Request Access</span>
+                        <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                       </>
                     )}
                   </Button>
@@ -305,9 +324,14 @@ export default function WaitlistSection() {
 
               {/* Success Message */}
               {isSuccess && (
-                <div className="mt-6 rounded-lg bg-green-50 p-4 text-center">
+                <div
+                  id="success-message"
+                  className="mt-6 rounded-lg bg-green-50 p-4 text-center"
+                  role="alert"
+                  aria-live="polite"
+                >
                   <div className="flex items-center justify-center gap-2 text-green-600">
-                    <Check className="h-5 w-5" />
+                    <Check className="h-5 w-5" aria-hidden="true" />
                     <span className="font-medium">
                       Request submitted successfully!
                     </span>
@@ -320,9 +344,14 @@ export default function WaitlistSection() {
 
               {/* Error Message */}
               {isError && (
-                <div className="mt-6 rounded-lg bg-red-50 p-4 text-center">
+                <div
+                  id="error-message"
+                  className="mt-6 rounded-lg bg-red-50 p-4 text-center"
+                  role="alert"
+                  aria-live="assertive"
+                >
                   <div className="flex items-center justify-center gap-2 text-red-600">
-                    <AlertCircle className="h-5 w-5" />
+                    <AlertCircle className="h-5 w-5" aria-hidden="true" />
                     <span className="font-medium">Submission failed</span>
                   </div>
                   <p className="mt-1 text-sm text-red-600/80">
@@ -334,9 +363,9 @@ export default function WaitlistSection() {
               {/* Note */}
               <p className="mt-6 text-center text-xs text-gray-500">
                 By submitting, you agree to our{" "}
-                <a href="/privacy" className="text-primary hover:underline">
+                <Link href="/privacy" className="text-primary hover:underline">
                   Privacy Policy
-                </a>
+                </Link>
                 . No credit card required.
               </p>
             </div>
