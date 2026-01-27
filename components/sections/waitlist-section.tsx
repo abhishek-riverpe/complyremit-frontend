@@ -39,7 +39,7 @@ const schema = yup.object({
     .string()
     .required("Email is required")
     .email("Please enter a valid email address"),
-  whatsapp: yup
+  whatsappNumber: yup
     .string()
     .required("WhatsApp number is required")
     .min(10, "Please enter a valid phone number"),
@@ -86,7 +86,7 @@ export default function WaitlistSection() {
     defaultValues: {
       fullName: "",
       email: "",
-      whatsapp: "",
+      whatsappNumber: "",
       message: "",
     },
   });
@@ -260,7 +260,7 @@ export default function WaitlistSection() {
                   {/* WhatsApp */}
                   <FormField
                     control={form.control}
-                    name="whatsapp"
+                    name="whatsappNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>WhatsApp Number</FormLabel>
