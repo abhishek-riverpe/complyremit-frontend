@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ChatWidget } from "@/components/chat-widget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -145,6 +146,7 @@ export default function RootLayout({
       >
         <JsonLd />
         {children}
+        <ChatWidget />
         <Toaster />
       </body>
     </html>
