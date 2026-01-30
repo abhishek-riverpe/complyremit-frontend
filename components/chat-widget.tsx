@@ -12,6 +12,8 @@ import {
   Loader2,
 } from "lucide-react";
 import { SyncLoader } from "react-spinners";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const SUGGESTIONS = [
   "What is ComplyRemit?",
@@ -289,13 +291,70 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         )}
       </div>
       <div
-        className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap ${
+        className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
           isUser
-            ? "bg-primary text-primary-foreground rounded-tr-md"
+            ? "bg-primary text-primary-foreground rounded-tr-md whitespace-pre-wrap"
             : "bg-muted text-foreground rounded-tl-md"
         }`}
       >
-        {message.content || <SyncLoader color="hsl(var(--primary))" size={6} />}
+        {!message.content ? (
+          <SyncLoader color="hsl(var(--primary))" size={6} />
+        ) : isUser ? (
+          message.content
+        ) : (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+              ul: ({ children }) => (
+                <ul className="mb-2 last:mb-0 list-disc pl-4">{children}</ul>
+              ),
+              ol: ({ children }) => (
+                <ol className="mb-2 last:mb-0 list-decimal pl-4">{children}</ol>
+              ),
+              li: ({ children }) => <li className="mb-0.5">{children}</li>,
+              strong: ({ children }) => (
+                <strong className="font-semibold">{children}</strong>
+              ),
+              a: ({ href, children }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:opacity-80"
+                >
+                  {children}
+                </a>
+              ),
+              code: ({ children }) => (
+                <code className="rounded bg-black/10 px-1 py-0.5 text-xs">
+                  {children}
+                </code>
+              ),
+              pre: ({ children }) => (
+                <pre className="mb-2 last:mb-0 overflow-x-auto rounded bg-black/10 p-2 text-xs">
+                  {children}
+                </pre>
+              ),
+              h1: ({ children }) => (
+                <h1 className="mb-2 text-base font-bold">{children}</h1>
+              ),
+              h2: ({ children }) => (
+                <h2 className="mb-2 text-sm font-bold">{children}</h2>
+              ),
+              h3: ({ children }) => (
+                <h3 className="mb-1 text-sm font-semibold">{children}</h3>
+              ),
+              blockquote: ({ children }) => (
+                <blockquote className="mb-2 last:mb-0 border-l-2 border-current/20 pl-3 italic">
+                  {children}
+                </blockquote>
+              ),
+            }}
+          >
+            {message.content}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   );
