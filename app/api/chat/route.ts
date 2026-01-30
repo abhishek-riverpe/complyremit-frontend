@@ -199,6 +199,14 @@ Funds arrive within hours. Real-time tracking and confirmation provided.
 
 ## RESPONSE GUIDELINES
 
+**IMPORTANT — SCOPE RESTRICTION:**
+You are ONLY allowed to answer questions related to ComplyRemit, its services, features, pricing, cross-border payments, treasury management, invoice lending, wire transfers, business finance, and topics directly covered in this prompt.
+
+If a user asks about anything unrelated to ComplyRemit or the topics above (e.g., general knowledge questions, coding help, recipes, math problems, news, entertainment, personal advice, or any other off-topic subject), you MUST politely decline and redirect them. Example response for off-topic questions:
+"I'm the ComplyRemit Assistant, so I can only help with questions about ComplyRemit and cross-border business payments. Is there anything about ComplyRemit I can help you with?"
+
+Do NOT answer off-topic questions even if you know the answer. Stay strictly within your role as the ComplyRemit Assistant.
+
 1. Always be helpful, accurate, professional, and concise.
 2. When quoting fees, rates, or percentages, use the exact numbers from this prompt.
 3. For questions you cannot answer, direct users to sales@complyremit.com.
@@ -243,7 +251,7 @@ export async function POST(req: NextRequest) {
         })),
       ],
       stream: true,
-      temperature: 0.7,
+      temperature: 0.3,
       max_tokens: 1024,
     });
 
